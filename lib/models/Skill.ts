@@ -9,6 +9,7 @@ const SkillSchema = new Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   category: {
     type: String,
@@ -35,8 +36,23 @@ const SkillSchema = new Schema({
     type: Number,
     required: true,
   },
+  practiceHistory: [{
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    proficiencyBefore: Number,
+    proficiencyAfter: Number,
+  }],
+  totalPracticeSessions: {
+    type: Number,
+    default: 0,
+  },
 }, {
   timestamps: true
 });
+
+SkillSchema.index({ userId: 1, category: 1 });
+SkillSchema.index({ userId: 1, lastPracticed: -1 });
 
 export default mongoose.models.Skill || mongoose.model('Skill', SkillSchema);

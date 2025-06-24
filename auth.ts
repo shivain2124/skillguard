@@ -14,35 +14,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        try {
-          await connectDB();
-          const user = await User.findOne({ email: credentials.email });
+        async authorize(credentials) {
+          const email = credentials?.email;
+          const password = credentials?.password;
           
-          if (!user) {
+          if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
             return null;
           }
 
-          const isValid = await bcrypt.compare(credentials.password, user.password);
-          
-          if (!isValid) {
+          try {
+            await connectDB();
+            const user = await User.findOne({ email });
+            
+            if (!user || !user.password) {
+              return null;
+            }
+
+            const isValid = await bcrypt.compare(password, user.password);
+            
+            if (!isValid) {
+              return null;
+            }
+
+            return {
+              id: user._id.toString(),
+              email: user.email,
+              name: user.name,
+            };
+          } catch (error) {
+            console.error("Auth error:", error);
             return null;
           }
-
-          return {
-            id: user._id.toString(),
-            email: user.email,
-            name: user.name,
-          };
-        } catch (error) {
-          console.error("Auth error:", error);
-          return null;
         }
-      }
+
     })
   ],
 });
