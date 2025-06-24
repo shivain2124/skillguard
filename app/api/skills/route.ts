@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
-import { calculateSkillDecay } from "@/lib/skill-decay";
+import { calculateSkillDecay, getHealthStatus } from "@/lib/skill-decay";
 import User from "@/lib/models/User";
 
 export async function GET() {
@@ -20,14 +20,24 @@ export async function GET() {
 
     const skills = await Skill.find({ userId: user._id });
 
-    const skillsWithDecay = skills.map((skill) => ({
-      ...skill.toObject(),
-      currentProficiency: calculateSkillDecay(
+    const skillsWithDecay = skills.map((skill) => {
+      const currentProficiency = calculateSkillDecay(
         skill.initialProficiency,
         skill.decayRate,
         skill.lastPracticed
-      ),
-    }));
+      );
+
+      const healthStatus = getHealthStatus(
+        currentProficiency,
+        skill.initialProficiency
+      );
+
+      return {
+        ...skill.toObject(),
+        currentProficiency,
+        healthStatus,
+      };
+    });
 
     return NextResponse.json(skillsWithDecay);
   } catch (error) {
@@ -38,6 +48,7 @@ export async function GET() {
     );
   }
 }
+
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
