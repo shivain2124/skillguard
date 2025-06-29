@@ -85,15 +85,10 @@ export async function POST(request: NextRequest) {
       lastPracticed: new Date(),
     });
 
-    console.log("Category:", category);
-    console.log(
-      "Decay rate for category:",
-      decayRates[category as keyof typeof decayRates]
-    );
-
     await skill.save();
     return NextResponse.json(skill);
   } catch (error) {
+    console.error("API Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

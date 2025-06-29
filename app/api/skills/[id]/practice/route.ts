@@ -52,6 +52,7 @@ export async function POST(
       practiceGain: proficiencyAfter - proficiencyBefore,
     });
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -86,6 +87,7 @@ export async function PUT(
 
     return NextResponse.json(skill);
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -120,6 +122,7 @@ export async function DELETE(
       deletedSkill: skill.name,
     });
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
