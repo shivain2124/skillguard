@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react";
 
 interface NavbarProps {
-  user: {
+  user?: {
     name?: string | null;
     email?: string | null;
   };
@@ -11,7 +11,7 @@ interface NavbarProps {
 
 export default function Navbar({ user }: NavbarProps) {
   const handleSignOut = () => {
-    signOut({ callbackUrl: '/login' });
+    signOut({ callbackUrl: "/login" });
   };
 
   return (
@@ -21,9 +21,9 @@ export default function Navbar({ user }: NavbarProps) {
           <div className="flex items-center">
             <h1 className="text-xl font-bold text-gray-900">SkillGuard</h1>
           </div>
-          
+
           <div className="flex items-center space-x-4">
-            <span className="text-gray-700">Welcome, {user.name}</span>
+            <span className="text-gray-700">Welcome, {user?.name}</span>
             <button
               onClick={handleSignOut}
               className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
