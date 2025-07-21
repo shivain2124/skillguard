@@ -10,33 +10,36 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{email?: string; password?: string}>({});
+  const [fieldErrors, setFieldErrors] = useState<{
+    email?: string;
+    password?: string;
+  }>({});
   const router = useRouter();
 
   const validateForm = () => {
-    const errors: {email?: string; password?: string} = {};
-    
+    const errors: { email?: string; password?: string } = {};
+
     if (!email) {
       errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       errors.email = "Please enter a valid email";
     }
-    
+
     if (!password) {
       errors.password = "Password is required";
     } else if (password.length < 6) {
       errors.password = "Password must be at least 6 characters";
     }
-    
+
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setLoading(true);
     setError("");
 
@@ -74,7 +77,9 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`relative block w-full px-3 py-2 border ${fieldErrors.email ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                className={`relative block w-full px-3 py-2 border ${
+                  fieldErrors.email ? "border-red-500" : "border-gray-300"
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                 placeholder="Email address"
               />
               {fieldErrors.email && (
@@ -86,11 +91,15 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`relative block w-full px-3 py-2 border ${fieldErrors.password ? 'border-red-500' : 'border-gray-300'} placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
+                className={`relative block w-full px-3 py-2 border ${
+                  fieldErrors.password ? "border-red-500" : "border-gray-300"
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
                 placeholder="Password"
               />
               {fieldErrors.password && (
-                <p className="mt-1 text-sm text-red-600">{fieldErrors.password}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {fieldErrors.password}
+                </p>
               )}
             </div>
           </div>
@@ -112,8 +121,11 @@ export default function LoginPage() {
           </div>
 
           <div className="text-center">
-            <Link href="/register" className="text-indigo-600 hover:text-indigo-500">
-              Don't have an account? Sign up
+            <Link
+              href="/register"
+              className="text-indigo-600 hover:text-indigo-500"
+            >
+              Don&apos;t have an account? Sign up
             </Link>
           </div>
         </form>

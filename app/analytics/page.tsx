@@ -2,6 +2,10 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Navbar from "@/app/_components/navbar/navbar";
 import SmartChart from "@/app/_components/analytics/smart-chart";
+import DecayCurve from "@/app/_components/analytics/decay-curve";
+import connectDB from "@/lib/mongodb";
+import Skill from "@/lib/models/Skill";
+import User from "@/lib/models/User";
 
 export default async function AnalyticsPage() {
   const session = await auth();
@@ -9,6 +13,23 @@ export default async function AnalyticsPage() {
   if (!session?.user) {
     redirect("/login");
   }
+
+  await connectDB();
+  const user = await User.findOne({ email: session.user.email });
+
+  if (!user) {
+    return <div>User not found</div>;
+  }
+
+  const skillsFromDB = await Skill.find({ userId: user._id }).limit(5);
+
+  const skills = skillsFromDB.map((skill) => ({
+    _id: skill._id.toString(),
+    name: skill.name,
+    category: skill.category,
+    initialProficiency: skill.initialProficiency,
+    lastPracticed: skill.lastPracticed.toISOString(),
+  }));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -37,6 +58,17 @@ export default async function AnalyticsPage() {
               type="bar"
               dataKey="categoryDistribution"
             />
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              Skill Decay Analysis
+            </h2>
+            <div className="grid gap-6">
+              {skills.map((skill) => (
+                <DecayCurve key={skill._id} skill={skill} />
+              ))}
+            </div>
           </div>
         </div>
       </div>

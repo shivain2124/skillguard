@@ -15,27 +15,6 @@ import {
   CartesianGrid,
 } from "recharts";
 
-type ChartType = "pie" | "bar" | "donut";
-
-type ChartData = {
-  name: string;
-  value: number;
-  color?: string;
-};
-
-type SmartChartProps = {
-  title: string;
-  type: ChartType;
-  dataKey: "healthDistribution" | "categoryDistribution";
-  colors?: string[];
-  height?: number;
-};
-
-const DEFAULT_COLORS = {
-  health: ["#22c55e", "#eab308", "#ef4444"],
-  category: ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"],
-};
-
 export default function SmartChart({
   title,
   type,
@@ -220,3 +199,23 @@ export default function SmartChart({
     </div>
   );
 }
+type ChartType = "pie" | "bar" | "donut";
+
+type ChartData = {
+  name: string;
+  value: number;
+  color?: string;
+};
+
+type SmartChartProps = {
+  title: string;
+  type: ChartType;
+  dataKey: "healthDistribution" | "categoryDistribution";
+  colors?: string[];
+  height?: number;
+};
+
+const DEFAULT_COLORS = {
+  health: ["#22c55e", "#eab308", "#ef4444"],
+  category: ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6"],
+};
