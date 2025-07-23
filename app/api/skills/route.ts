@@ -5,6 +5,7 @@ import Skill from "@/lib/models/Skill";
 import { calculateSkillDecay, getHealthStatus } from "@/lib/skill-decay";
 import User from "@/lib/models/User";
 
+//Get method
 export async function GET() {
   try {
     const session = await auth();
@@ -48,6 +49,8 @@ export async function GET() {
     );
   }
 }
+
+//Post method
 
 export async function POST(request: NextRequest) {
   try {
