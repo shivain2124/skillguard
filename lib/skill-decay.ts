@@ -1,4 +1,4 @@
-export function calculateSkillDecay(
+function calculateSkillDecay(
   initialProficiency: number,
   decayRate: number,
   lastPracticed: Date
@@ -13,7 +13,13 @@ export function calculateSkillDecay(
   return Math.max(Math.round(decayedProficiency * 100) / 100, 0);
 }
 
-export function getHealthStatus(current: number, initial: number) {
+function getDaysSinceLastPractice(lastPracticed: Date): number {
+  return Math.floor(
+    (Date.now() - new Date(lastPracticed).getTime()) / (1000 * 60 * 60 * 24)
+  );
+}
+
+function getHealthStatus(current: number, initial: number) {
   const percentage = Math.round((current / initial) * 100);
 
   if (percentage > 70) {
@@ -42,3 +48,5 @@ export function getHealthStatus(current: number, initial: number) {
     message: "Urgent practice needed!",
   };
 }
+
+export { calculateSkillDecay, getDaysSinceLastPractice, getHealthStatus };

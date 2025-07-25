@@ -79,15 +79,24 @@ export async function GET() {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const recentPractices = skill.practiceHistory.filter(
-        (practice) => new Date(practice.date) >= thirtyDaysAgo
+      interface Practice {
+        date: Date | string;
+        proficiencyBefore: number;
+        proficiencyAfter: number;
+      }
+
+      const recentPractices: Practice[] = skill.practiceHistory.filter(
+        (practice: Practice) => new Date(practice.date) >= thirtyDaysAgo
       );
 
       recentPractices.forEach((practice) => {
         analytics.recentPracticeActivity.push({
           skillName: skill.name,
           category: skill.category,
-          date: practice.date.toISOString(), // Convert to string for JSON
+          date: (typeof practice.date === "string"
+            ? new Date(practice.date)
+            : practice.date
+          ).toISOString(),
           proficiencyGain:
             practice.proficiencyAfter - practice.proficiencyBefore,
         });
