@@ -1,38 +1,82 @@
 "use client";
 
+import { useState } from "react";
 import { signOut } from "next-auth/react";
+import { Menu, X } from "lucide-react";
+import UserDropdown from "./UserDropdown";
+import MobileMenu from "./MobileMenu";
 
 interface NavbarProps {
   user?: {
     name?: string | null;
     email?: string | null;
+    image?: string | null;
   };
 }
 
 export default function Navbar({ user }: NavbarProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleSignOut = () => {
     signOut({ callbackUrl: "/login" });
   };
 
   return (
-    <nav className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <h1 className="text-xl font-bold text-gray-900">SkillGuard</h1>
-          </div>
+    <>
+      <nav className="bg-white/90 backdrop-blur-md shadow-lg border-b border-gray-200 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                SkillGuard
+              </h1>
+            </div>
 
-          <div className="flex items-center space-x-4">
-            <span className="text-gray-700">Welcome, {user?.name}</span>
-            <button
-              onClick={handleSignOut}
-              className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
-            >
-              Sign Out
-            </button>
+            <div className="hidden md:flex items-center space-x-8">
+              {navigationItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-md hover:bg-blue-50"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <div className="hidden md:block">
+                <UserDropdown user={user} onSignOut={handleSignOut} />
+              </div>
+
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        navigationItems={navigationItems}
+        user={user}
+        onSignOut={handleSignOut}
+      />
+    </>
   );
 }
+const navigationItems = [
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Analytics", href: "/analytics" },
+  { name: "Why SkillGuard", href: "/why-skillguard" },
+];
