@@ -64,7 +64,6 @@ export default function Navbar({ user }: NavbarProps) {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
@@ -76,7 +75,8 @@ export default function Navbar({ user }: NavbarProps) {
   );
 }
 const navigationItems = [
+  { name: "Home", href: "/" },
+  { name: "Why SkillGuard", href: "/why-skillguard" },
   { name: "Dashboard", href: "/dashboard" },
   { name: "Analytics", href: "/analytics" },
-  { name: "Why SkillGuard", href: "/why-skillguard" },
 ];

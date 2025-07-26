@@ -1,62 +1,51 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Shield, ArrowRight } from "lucide-react";
 
-const Hero = () => {
+export default function Hero() {
   return (
-    <div className="md:py-20 py-10 bg-gradient-to-br from-white via-orange-50 to-orange-100 px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
-          <div className="text-left">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-              SkillGuard - Stop Skills from Fading Away
-            </h1>
-            <p className="text-lg text-gray-700 leading-relaxed mb-8">
-              Get personalized alerts and data-driven insights to stay sharp and
-              competitive. Your skills are investments - protect them.
-            </p>
-
-            <div className="space-y-3">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  <span className="text-gray-600">{feature}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6">
-              <Link href="/sign-up?plan=byos">
-                <Button className="bg-orange-500 text-white rounded-3xl hover:bg-orange-500/90 hover:scale-105 transition-all duration-300 font-medium shadow-lg">
-                  Get Started Free
-                </Button>
-              </Link>
-            </div>
+    <section className="relative py-20 md:py-32 bg-gradient-to-br from-blue-50 via-white to-purple-50 overflow-hidden">
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="text-center">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-700 text-sm font-medium mb-8">
+            <Shield className="w-4 h-4 mr-2" />
+            Protect Your Professional Investment
           </div>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            Your Skills Are
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              {" "}
+              Fading
+            </span>
+            <br />
+            We Help You
+            <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              {" "}
+              Guard
+            </span>{" "}
+            Them
+          </h1>
 
-          <div className="relative">
-            <div className="relative w-full h-72 sm:h-80 md:h-88 lg:h-[26rem]">
-              <Image
-                src="/images/fox.svg"
-                alt="Vizz Platform Visualization"
-                fill
-                className="object-contain rounded-2xl"
-                priority={true}
-              />
-            </div>
+          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+            Stop losing the skills you worked hard to build. SkillGuard uses
+            science-backed methods to track, maintain, and strengthen your
+            professional abilities.
+          </p>
 
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-orange-500/15 rounded-full blur-xl"></div>
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl"></div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Link href="/sign-up">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                Start Protecting Your Skills
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-const features: string[] = [
-  "Track Your Skills. Master Your Growth.",
-  "Stop Losing Skills You Worked Hard to Build",
-];
-
-export default Hero;
+}
