@@ -48,6 +48,7 @@ export default function SmartChart({
             ];
           } else if (dataKey === "categoryDistribution") {
             chartData = Object.entries(json.categoryDistribution)
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               .filter(([, count]) => count > 0)
               .map(([category, count]) => ({
                 name: category,
@@ -124,9 +125,8 @@ export default function SmartChart({
           <Bar
             dataKey="value"
             radius={[4, 4, 0, 0]}
-            fill={(props: { payload?: { color?: string } }) =>
-              props.payload?.color || "#3b82f6"
-            }
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            fill={(props: any) => props.payload?.color || "#3b82f6"}
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
