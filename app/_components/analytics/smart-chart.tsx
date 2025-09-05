@@ -49,7 +49,9 @@ export default function SmartChart({
               { name: "Critical", value: json.healthDistribution.critical },
             ];
           } else if (dataKey === "categoryDistribution") {
-            chartData = Object.entries(json.categoryDistribution)
+            chartData = Object.entries(
+              json.categoryDistribution as Record<string, number>
+            )
               .filter(([, count]) => count > 0)
               .map(([category, count]) => ({
                 name: category,
@@ -77,7 +79,7 @@ export default function SmartChart({
     fetchData();
   }, [dataKey, colors]);
 
-  const renderChart = () => {
+  const renderChart = (): React.ReactElement => {
     if (type === "pie" || type === "donut") {
       return (
         <PieChart>
@@ -89,7 +91,7 @@ export default function SmartChart({
             cy="50%"
             outerRadius={type === "donut" ? 80 : 100}
             innerRadius={type === "donut" ? 40 : 0}
-            label={({ value }) => {
+            label={({ value = 0 }) => {
               const total = data.reduce((sum, item) => sum + item.value, 0);
               const percent = total > 0 ? Math.round((value / total) * 100) : 0;
               return value > 0 ? `${percent}%` : "";
@@ -123,20 +125,16 @@ export default function SmartChart({
               borderRadius: "6px",
             }}
           />
-          <Bar
-            dataKey="value"
-            radius={[4, 4, 0, 0]}
-            fill={(props: any) => props.payload?.color || "#3b82f6"}
-          >
+          <Bar dataKey="value" radius={[4, 4, 0, 0]} fill="#3b82f6">
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
+              <Cell key={`cell-${index}`} fill={entry.color || "#3b82f6"} />
             ))}
           </Bar>
         </BarChart>
       );
     }
 
-    return null;
+    return <></>;
   };
 
   if (loading) {

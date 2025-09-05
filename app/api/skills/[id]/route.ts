@@ -4,10 +4,8 @@ import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// PUT /api/skills/[id]
+export async function PUT(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
@@ -19,8 +17,13 @@ export async function PUT(
     await connectDB();
     const user = await User.findOne({ email: session.user.email });
 
+    // extract id from URL
+    const { pathname } = request.nextUrl;
+    const segments = pathname.split("/");
+    const skillId = segments[segments.length - 1]; // last segment is [id]
+
     const skill = await Skill.findOneAndUpdate(
-      { _id: params.id, userId: user._id },
+      { _id: skillId, userId: user._id },
       updates,
       { new: true }
     );
@@ -39,10 +42,8 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// DELETE /api/skills/[id]
+export async function DELETE(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
@@ -52,8 +53,13 @@ export async function DELETE(
     await connectDB();
     const user = await User.findOne({ email: session.user.email });
 
+    // extract id from URL
+    const { pathname } = request.nextUrl;
+    const segments = pathname.split("/");
+    const skillId = segments[segments.length - 1];
+
     const skill = await Skill.findOneAndDelete({
-      _id: params.id,
+      _id: skillId,
       userId: user._id,
     });
 

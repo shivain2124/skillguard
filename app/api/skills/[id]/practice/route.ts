@@ -5,10 +5,7 @@ import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
 import { calculateSkillDecay } from "@/lib/skill-decay";
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     if (!session?.user?.email) {
@@ -18,8 +15,13 @@ export async function POST(
     await connectDB();
     const user = await User.findOne({ email: session.user.email });
 
+    // get id from URL
+    const { pathname } = request.nextUrl;
+    const segments = pathname.split("/");
+    const skillId = segments[segments.length - 2];
+
     const skill = await Skill.findOne({
-      _id: params.id,
+      _id: skillId,
       userId: user._id,
     });
 
@@ -27,17 +29,14 @@ export async function POST(
       return NextResponse.json({ error: "Skill not found" }, { status: 404 });
     }
 
-    // Calculate current proficiency before practice
     const proficiencyBefore = calculateSkillDecay(
       skill.initialProficiency,
       skill.decayRate,
       skill.lastPracticed
     );
 
-    // Reset to initial proficiency after practice
     const proficiencyAfter = skill.initialProficiency;
 
-    // Update skill
     skill.lastPracticed = new Date();
     skill.currentProficiency = proficiencyAfter;
     skill.practiceHistory.push({
@@ -47,6 +46,7 @@ export async function POST(
     });
 
     await skill.save();
+
     return NextResponse.json({
       ...skill.toObject(),
       practiceGain: proficiencyAfter - proficiencyBefore,
