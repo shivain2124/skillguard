@@ -4,6 +4,14 @@ import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import { calculateSkillDecay, getHealthStatus } from "@/lib/skill-decay";
 import User from "@/lib/models/User";
+import {
+  handleApiError,
+  validateRequired,
+  validateProficiency,
+  AuthenticationError,
+  NotFoundError,
+  ValidationError,
+} from "@/lib/error-handling";
 
 //Get method
 export async function GET() {

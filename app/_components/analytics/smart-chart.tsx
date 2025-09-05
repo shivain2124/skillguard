@@ -48,7 +48,7 @@ export default function SmartChart({
             ];
           } else if (dataKey === "categoryDistribution") {
             chartData = Object.entries(json.categoryDistribution)
-              .filter(([_, count]) => count > 0)
+              .filter(([, count]) => count > 0)
               .map(([category, count]) => ({
                 name: category,
                 value: count as number,
@@ -124,7 +124,9 @@ export default function SmartChart({
           <Bar
             dataKey="value"
             radius={[4, 4, 0, 0]}
-            fill={(props: any) => props.payload?.color || "#3b82f6"}
+            fill={(props: { payload?: { color?: string } }) =>
+              props.payload?.color || "#3b82f6"
+            }
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
