@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { auth0 } from "@/lib/auth0";
 import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
@@ -7,18 +7,19 @@ import { calculateSkillDecay, getHealthStatus } from "@/lib/skill-decay";
 
 export async function GET() {
   try {
-    const session = await auth();
+    const session = await auth0.getSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectDB();
-    const user = await User.findOne({ email: session.user.email });
-    if (!user) {
+
+    const dbUser = await User.findOne({ email: session.user.email });
+    if (!dbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const skills = await Skill.find({ userId: user._id });
+    const skills = await Skill.find({ userId: dbUser._id });
 
     const analytics: AnalyticsData = {
       totalSkills: skills.length,

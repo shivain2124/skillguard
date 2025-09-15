@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import MobileMenu from "./MobileMenu";
@@ -16,9 +16,10 @@ interface NavbarProps {
 
 export default function Navbar({ user }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: "/login" });
+    router.push("/auth/logout");
   };
 
   return (

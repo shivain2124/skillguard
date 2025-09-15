@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth0 } from "@/lib/auth0";
 import { redirect } from "next/navigation";
 import Navbar from "@/app/_components/navbar/navbar";
 import SmartChart from "@/app/_components/analytics/smart-chart";
@@ -8,20 +8,16 @@ import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
 
 export default async function AnalyticsPage() {
-  const session = await auth();
+  const session = await auth0.getSession();
 
-  if (!session?.user) {
-    redirect("/login");
-  }
+  if (!session?.user) redirect("/login");
 
   await connectDB();
-  const user = await User.findOne({ email: session.user.email });
+  const dbUser = await User.findOne({ email: session.user.email });
 
-  if (!user) {
-    return <div>User not found</div>;
-  }
+  if (!dbUser) redirect("/login");
 
-  const skillsFromDB = await Skill.find({ userId: user._id }).limit(5);
+  const skillsFromDB = await Skill.find({ userId: dbUser._id }).limit(5);
 
   const skills = skillsFromDB.map((skill) => ({
     _id: skill._id.toString(),

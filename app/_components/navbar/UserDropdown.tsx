@@ -37,10 +37,11 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
   ];
   if (!user?.name) {
     return (
-      <Link href="/login">
-        <button className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-600/80 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-          <span className="text-sm font-medium">Login</span>
-        </button>
+      <Link
+        href="/auth/login"
+        className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-600/80 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        <span className="text-sm font-medium">Login</span>
       </Link>
     );
   }
