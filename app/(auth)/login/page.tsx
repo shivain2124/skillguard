@@ -49,12 +49,13 @@ const LoginLayout = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
-      console.log("Response status:", response);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Login failed");
+      }
       router.push("/dashboard");
     } catch (error) {
-      console.error("Login error:", error);
-      setError("Something went wrong");
+      setError((error as Error).message);
     } finally {
       setLoading(false);
     }

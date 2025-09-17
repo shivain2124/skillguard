@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     console.log(email, password);
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return NextResponse.json(
-        { error: "Invalid Credentials" },
+        { message: "Invalid Credentials" },
         { status: 401 }
       );
     }
