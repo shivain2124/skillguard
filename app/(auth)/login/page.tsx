@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Zap, BarChart3 } from "lucide-react";
 
@@ -45,19 +44,17 @@ const LoginLayout = () => {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (result?.error) {
-        setError("Invalid email or password");
-      } else {
-        router.push("/dashboard");
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
+      console.log("Response status:", response);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Something went wrong");
     } finally {
       setLoading(false);
     }

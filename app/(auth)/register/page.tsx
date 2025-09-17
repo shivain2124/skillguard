@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Zap, BarChart3 } from "lucide-react";
+import axios from "axios";
 
 const LoginLayout = () => {
   const [email, setEmail] = useState("");
@@ -45,19 +45,22 @@ const LoginLayout = () => {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      // const result = await signIn("credentials", {
+      //   email,
+      //   password,
+      //   redirect: false,
+      // });
+      const result = await axios("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({ email, password }),
       });
-
-      if (result?.error) {
-        setError("Invalid email or password");
-      } else {
-        router.push("/dashboard");
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
+      console.log(result);
+      router.push("/dashboard");
+    } catch (err: Error | any) {
+      setError(err.message || "An unexpected error occurred");
     } finally {
       setLoading(false);
     }
