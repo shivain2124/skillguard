@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getUser } from "@/lib/auth/getUser";
 import { redirect } from "next/navigation";
 import Navbar from "@/app/_components/navbar/navbar";
 import SmartChart from "@/app/_components/analytics/smart-chart";
@@ -8,7 +8,7 @@ import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
 
 export default async function AnalyticsPage() {
-  const session = await auth();
+  const session = await getUser();
 
   if (!session?.user) {
     redirect("/login");

@@ -4,15 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { User, Settings, LogOut, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-interface UserDropdownProps {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-  onSignOut: () => void;
-}
-
 export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -94,4 +85,13 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
       )}
     </div>
   );
+}
+
+interface UserDropdownProps {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  onSignOut: () => void;
 }
