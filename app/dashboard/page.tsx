@@ -21,8 +21,6 @@ export default async function Dashboard() {
   if (!session?.user) {
     redirect("/login");
   }
-  console.log("Session user:", session.user); // Debug this!
-  console.log("User name:", session.user.name); // And this!
 
   const skills = await getUserSkills(session.user.email!);
 

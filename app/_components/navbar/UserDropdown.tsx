@@ -58,7 +58,7 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
           </div>
 
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
@@ -66,7 +66,7 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
             >
               <item.icon className="w-4 h-4 mr-3" />
               {item.label}
-            </a>
+            </Link>
           ))}
 
           <div className="border-t border-gray-100">

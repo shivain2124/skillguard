@@ -58,8 +58,8 @@ const LoginLayout = () => {
         },
         data: JSON.stringify({ name, email, password }),
       });
-      console.log(result);
-      router.push("/dashboard");
+
+      window.location.href = "/dashboard";
     } catch (err: Error | any) {
       setError(err.message || "An unexpected error occurred");
     } finally {
