@@ -5,7 +5,7 @@ import User from "@/lib/models/User";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const { name, email, password } = await request.json();
 
     await connectDB();
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
     return NextResponse.json({ message: "User created successfully" });

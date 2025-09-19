@@ -1,6 +1,7 @@
 "use client";
 
 import { X, LogOut } from "lucide-react";
+import Link from "next/link";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -52,14 +53,14 @@ export default function MobileMenu({
             <div className="flex-1 py-4">
               <nav className="space-y-1 px-4">
                 {navigationItems.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
                     href={item.href}
                     onClick={onClose}
                     className="block px-3 py-2 rounded-lg text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 transition-colors"
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </nav>
 
