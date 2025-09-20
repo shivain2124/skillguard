@@ -26,7 +26,7 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar user={user} />
+      <Navbar user={session.user} />
       <AlertBanner skills={skills} />
       <SkillsDashboard />
       <SmartChart
