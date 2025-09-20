@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import MobileMenu from "./MobileMenu";
+import Link from "next/link";
 
 interface NavbarProps {
   user?: {
@@ -16,9 +17,10 @@ interface NavbarProps {
 
 export default function Navbar({ user }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: "/login" });
+    router.push("/auth/logout");
   };
 
   return (
@@ -34,13 +36,13 @@ export default function Navbar({ user }: NavbarProps) {
 
             <div className="hidden md:flex items-center space-x-8">
               {navigationItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="text-sm font-semibold text-gray-900 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-md hover:bg-blue-50"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
 
