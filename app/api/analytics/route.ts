@@ -13,12 +13,13 @@ export async function GET() {
     }
 
     await connectDB();
-    const user = await User.findOne({ email: session.user.email });
-    if (!user) {
+
+    const dbUser = await User.findOne({ email: session.user.email });
+    if (!dbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const skills = await Skill.find({ userId: user._id });
+    const skills = await Skill.find({ userId: dbUser._id });
 
     const analytics: AnalyticsData = {
       totalSkills: skills.length,

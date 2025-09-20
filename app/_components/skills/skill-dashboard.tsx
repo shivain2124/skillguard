@@ -24,13 +24,37 @@ export default function SkillsDashboard() {
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
 
+  // const fetchSkills = async () => {
+  //   try {
+  //     const response = await fetch("/api/skills");
+  //     const data = await response.json();
+  //     setSkills(data);
+  //   } catch (error) {
+  //     console.error("Error fetching skills:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchSkills = async () => {
     try {
       const response = await fetch("/api/skills");
       const data = await response.json();
-      setSkills(data);
+
+      // Add debugging
+      console.log("API Response:", data);
+      console.log("Response status:", response.status);
+      console.log("Is array?", Array.isArray(data));
+
+      // Only set skills if data is an array
+      if (Array.isArray(data)) {
+        setSkills(data);
+      } else {
+        console.error("Expected array but got:", typeof data);
+        setSkills([]); // Fallback to empty array
+      }
     } catch (error) {
       console.error("Error fetching skills:", error);
+      setSkills([]); // Fallback to empty array on error
     } finally {
       setLoading(false);
     }

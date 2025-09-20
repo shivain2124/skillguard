@@ -22,9 +22,17 @@ export async function GET() {
     }
 
     await connectDB();
-    const user = await User.findOne({ email: session.user.email });
+    let user = await User.findOne({ email: session.user.email });
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      user = new User({
+        email: session.user.email,
+        name: session.user.name || session.user.email,
+        createdAt: new Date(),
+      });
+      await user.save();
+      console.log(`Created new User: ${user.email}`);
+
+      // return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const skills = await Skill.find({ userId: user._id });

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Zap, BarChart3 } from "lucide-react";
@@ -189,24 +189,5 @@ const LoginLayout = () => {
     </div>
   );
 };
-const FEATURES = [
-  {
-    icon: <CheckCircle className="w-5 h-5" />,
-    title: "Smart Skill Tracking",
-    desc: "AI-powered assessments track your skill decay patterns",
-    accent: "from-blue-400 to-cyan-400",
-  },
-  {
-    icon: <Zap className="w-5 h-5" />,
-    title: "Personalized Practice",
-    desc: "Custom exercises tailored to your specific skill gaps",
-    accent: "from-purple-400 to-pink-400",
-  },
-  {
-    icon: <BarChart3 className="w-5 h-5" />,
-    title: "Progress Analytics",
-    desc: "Detailed insights showing your skill growth patterns",
-    accent: "from-emerald-400 to-teal-400",
-  },
-];
+
 export default LoginLayout;
