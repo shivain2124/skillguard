@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getUser } from "@/lib/auth/getUser";
 import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
@@ -8,7 +8,7 @@ import { PipelineStage, Types } from "mongoose";
 async function GET(request: NextRequest) {
   try {
     // auth
-    const session = await auth();
+    const session = await getUser();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

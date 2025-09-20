@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getUser } from "@/lib/auth/getUser";
 import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
@@ -7,7 +7,7 @@ import User from "@/lib/models/User";
 // PUT /api/skills/[id]
 export async function PUT(request: NextRequest) {
   try {
-    const session = await auth();
+    const session = await getUser();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -45,7 +45,7 @@ export async function PUT(request: NextRequest) {
 // DELETE /api/skills/[id]
 export async function DELETE(request: NextRequest) {
   try {
-    const session = await auth();
+    const session = await getUser();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

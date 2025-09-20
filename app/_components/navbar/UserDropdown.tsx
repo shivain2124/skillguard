@@ -4,15 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { User, Settings, LogOut, ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-interface UserDropdownProps {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-  onSignOut: () => void;
-}
-
 export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -37,10 +28,11 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
   ];
   if (!user?.name) {
     return (
-      <Link href="/login">
-        <button className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-600/80 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-          <span className="text-sm font-medium">Login</span>
-        </button>
+      <Link
+        href="/login"
+        className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-600/80 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        <span className="text-sm font-medium">Login</span>
       </Link>
     );
   }
@@ -67,7 +59,7 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
           </div>
 
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
@@ -75,7 +67,7 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
             >
               <item.icon className="w-4 h-4 mr-3" />
               {item.label}
-            </a>
+            </Link>
           ))}
 
           <div className="border-t border-gray-100">
@@ -94,4 +86,13 @@ export default function UserDropdown({ user, onSignOut }: UserDropdownProps) {
       )}
     </div>
   );
+}
+
+interface UserDropdownProps {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+  onSignOut: () => void;
 }
