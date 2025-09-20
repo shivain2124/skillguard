@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Zap, BarChart3 } from "lucide-react";
@@ -189,4 +190,4 @@ const LoginLayout = () => {
   );
 };
 
-export default LoginPage;
+export default LoginLayout;
