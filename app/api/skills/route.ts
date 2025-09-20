@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { auth0 } from "@/lib/auth0";
 import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import { calculateSkillDecay, getHealthStatus } from "@/lib/skill-decay";
@@ -16,15 +16,23 @@ import {
 //Get method
 export async function GET() {
   try {
-    const session = await auth();
+    const session = await auth0.getSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectDB();
-    const user = await User.findOne({ email: session.user.email });
+    let user = await User.findOne({ email: session.user.email });
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      user = new User({
+        email: session.user.email,
+        name: session.user.name || session.user.email,
+        createdAt: new Date(),
+      });
+      await user.save();
+      console.log(`Created new User: ${user.email}`);
+
+      // return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const skills = await Skill.find({ userId: user._id });
@@ -62,7 +70,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth();
+    const session = await auth0.getSession();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

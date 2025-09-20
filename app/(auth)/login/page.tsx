@@ -17,12 +17,12 @@ const LoginPage = () => {
           </div>
 
           <div className="space-y-6">
-            <Link
-              href="/api/auth/login"
+            <a
+              href="/auth/login?returnTo=/dashboard"
               className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl font-medium hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 hover:scale-105 hover:shadow-lg text-center"
             >
               Sign in with Auth0
-            </Link>
+            </a>
           </div>
 
           <div className="mt-6 text-center space-y-3">
