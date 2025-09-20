@@ -1,4 +1,3 @@
-import { auth0 } from "@/lib/auth0";
 import { redirect } from "next/navigation";
 import Navbar from "@/app/_components/navbar/navbar";
 import SkillsDashboard from "@/app/_components/skills/skill-dashboard";
@@ -7,20 +6,23 @@ import { AlertBanner } from "@/lib/notification/AlertBanner";
 import Skill from "@/lib/models/Skill";
 import User from "@/lib/models/User";
 import connectDB from "@/lib/mongodb";
-
-async function getUserSkills(userEmail: string) {
-  await connectDB();
-  const dbUser = await User.findOne({ email: userEmail });
-  if (!dbUser) return [];
-  const skills = await Skill.find({ userId: dbUser._id });
-  return JSON.parse(JSON.stringify(skills));
-}
+import { cookies } from "next/headers";
+import { getUser } from "@/lib/auth/getUser";
 
 export default async function Dashboard() {
-  const session = await auth0.getSession();
-  if (!session?.user) redirect("/login");
-  const { user } = session;
-  const skills = await getUserSkills(user.email!);
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    redirect("/login");
+  }
+  const session = await getUser();
+
+  if (!session?.user) {
+    redirect("/login");
+  }
+
+  const skills = await getUserSkills(session.user.email!);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -39,4 +41,12 @@ export default async function Dashboard() {
       />
     </div>
   );
+}
+async function getUserSkills(userEmail: string) {
+  await connectDB();
+  const user = await User.findOne({ email: userEmail });
+  if (!user) return [];
+
+  const skills = await Skill.find({ userId: user._id });
+  return JSON.parse(JSON.stringify(skills));
 }

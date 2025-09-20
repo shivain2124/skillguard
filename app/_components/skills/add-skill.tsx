@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface AddSkillFormProps {
   onClose: () => void;
@@ -11,6 +12,7 @@ export default function AddSkillForm({
   onClose,
   onSuccess,
 }: AddSkillFormProps) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     category: "Programming",
@@ -33,6 +35,7 @@ export default function AddSkillForm({
 
       if (response.ok) {
         onSuccess();
+        window.location.reload();
       }
     } catch (error) {
       console.error("Error creating skill:", error);

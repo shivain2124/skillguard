@@ -1,26 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { Menu, X } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import MobileMenu from "./MobileMenu";
+import { logout } from "@/lib/auth/logout";
 import Link from "next/link";
-
-interface NavbarProps {
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-}
 
 export default function Navbar({ user }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   const handleSignOut = () => {
-    router.push("/auth/logout");
+    startTransition(async () => {
+      await logout();
+    });
   };
 
   return (
@@ -82,3 +76,11 @@ const navigationItems = [
   { name: "Dashboard", href: "/dashboard" },
   { name: "Analytics", href: "/analytics" },
 ];
+
+interface NavbarProps {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+}

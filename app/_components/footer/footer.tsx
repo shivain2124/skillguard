@@ -16,10 +16,4 @@ export const Footer = () => {
   );
 };
 
-// const quickLinks = [
-//   { name: "Dashboard", href: "/dashboard" },
-//   { name: "Analytics", href: "/analytics" },
-//   { name: "Why SkillGuard", href: "/why-skillguard" },
-// ];
-
 export default Footer;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth0 } from "@/lib/auth0";
+import { getUser } from "@/lib/auth/getUser";
 import connectDB from "@/lib/mongodb";
 import Skill from "@/lib/models/Skill";
 import { calculateSkillDecay, getHealthStatus } from "@/lib/skill-decay";
@@ -16,7 +16,7 @@ import {
 //Get method
 export async function GET() {
   try {
-    const session = await auth0.getSession();
+    const session = await getUser();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -70,7 +70,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth0.getSession();
+    const session = await getUser();
     if (!session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
