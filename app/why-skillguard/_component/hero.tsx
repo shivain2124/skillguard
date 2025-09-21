@@ -26,7 +26,7 @@ export const Hero = () => {
             </div>
 
             <div className="mt-6">
-              <Link href="/sign-up?plan=byos">
+              <Link href="/login">
                 <Button className="bg-orange-500 text-white rounded-3xl hover:bg-orange-500/90 hover:scale-105 transition-all duration-300 font-medium shadow-lg">
                   Get Started Free
                 </Button>

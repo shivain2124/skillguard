@@ -4,11 +4,14 @@ import Stats from "@/app/_components/stats";
 import Feature from "@/app/_components/feature";
 import CTA from "@/app/_components/cta";
 import { Footer } from "@/app/_components/footer/footer";
+import { getUser } from "@/lib/auth/getUser";
 
-const Home = () => {
+const Home = async () => {
+  const userResult = await getUser();
+  const user = userResult?.user || null;
   return (
     <main className="min-h-screen">
-      <Navbar />
+      <Navbar user={user} />
       <Hero />
       <Feature />
       <Stats />

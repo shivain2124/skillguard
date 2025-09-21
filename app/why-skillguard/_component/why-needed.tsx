@@ -1,4 +1,5 @@
 import { TrendingDown, Briefcase, DollarSign, SearchX } from "lucide-react";
+import Link from "next/link";
 
 export const WhyNeeded = () => {
   return (
@@ -71,9 +72,12 @@ export const WhyNeeded = () => {
             achievements. SkillGuard helps you stay sharp, competitive, and
             always ready for the next opportunity.
           </p>
-          <button className="bg-primary text-white px-8 py-3 md:px-10 md:py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 hover:scale-105 transition-all duration-300">
+          <Link
+            href="/login"
+            className="bg-primary text-white px-8 py-3 md:px-10 md:py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+          >
             Start Protecting Your Skills Today
-          </button>
+          </Link>
         </div>
       </div>
     </section>
