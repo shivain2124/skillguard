@@ -3,21 +3,6 @@
 import { X, LogOut } from "lucide-react";
 import Link from "next/link";
 
-interface MobileMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-  navigationItems: Array<{
-    name: string;
-    href: string;
-  }>;
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-  };
-  onSignOut: () => void;
-}
-
 export default function MobileMenu({
   isOpen,
   onClose,
@@ -97,4 +82,19 @@ export default function MobileMenu({
       </div>
     </div>
   );
+}
+
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  navigationItems: Array<{
+    name: string;
+    href: string;
+  }>;
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  } | null;
+  onSignOut: () => void;
 }

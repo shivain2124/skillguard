@@ -93,6 +93,6 @@ interface UserDropdownProps {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-  };
+  } | null;
   onSignOut: () => void;
 }
